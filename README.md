@@ -1,6 +1,6 @@
 # Scripts for The Foundry Nuke
 
-### [marvel.py](http://github.com/hellozee/nuke-scripts/marvel.py)
+### [marvel.py](https://github.com/hellozee/nuke-scripts/blob/master/marvel.py)
 
 A small script which asks for multiple images and then sets up a node graph to create the classic marvel intro effect.
 
