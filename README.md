@@ -4,4 +4,4 @@
 
 A small script which asks for multiple images and then sets up a node graph to create the classic marvel intro effect.
 
-![marvel intro](https://giphy.com/gifs/marvel-intro-nuke-dJQyGQcoy5E8NrXcMt)
+![marvel intro](https://media.giphy.com/media/dJQyGQcoy5E8NrXcMt/200w_d.gif)
