@@ -4,12 +4,6 @@
 """
 
 import nuke
-images = nuke.getFilename("Select Images",multiple=True)
-
-length = len(images)
-if length < 2 :
-    nuke.warning("At least 2 images required to create the effect")
-    nuke.message("At least 2 images required to create the effect")
 
 def get_transform(height):
     """The transform node does the animation of dropping the image"""
@@ -33,7 +27,7 @@ def get_timeoffset(pos):
 
 def manipulate_node(filename,pos):
     """The man who generates the node graph"""
-    read = nuke.nodes.Read(file=images[i],auto_alpha=True,premultiplied=True)
+    read = nuke.nodes.Read(file=filename,auto_alpha=True,premultiplied=True)
     reformat = get_reformat()
     reformat.setInput(0,read)
 
@@ -46,20 +40,31 @@ def manipulate_node(filename,pos):
     timeoffset.setInput(0,transform)
     return timeoffset
     
-i = 0
-merge = manipulate_node(images[i],i)
-i += 1
+def main():
+    images = nuke.getFilename("Select Images",'*.png *.jpg *.jpeg',multiple=True)
+    
+    length = len(images)
+    if length < 2 :
+        nuke.warning("At least 2 images required to create the effect")
+        nuke.message("At least 2 images required to create the effect")
+        return
 
-while i < length:
-    node = manipulate_node(images[i],i)
-    merge = nuke.nodes.Merge(inputs=[merge, node])
-    i += 1
+    merge = manipulate_node(images[0],0)
+    i = 1
+    
+    while i < length:
+        node = manipulate_node(images[i],i)
+        merge = nuke.nodes.Merge(inputs=[merge, node])
+        i += 1
+    
+    # A generic touch to make it similar to the original one,
+    # a trick which really makes difference, have to play with
+    # the shutter samples for more accuracy
+    motionblur = nuke.nodes.MotionBlur()
+    motionblur.setInput(0,merge)
+    
+    # For keeping track of the nodegraph if you have too many pictures
+    motionblur.setSelected(True)
 
-# A generic touch to make it similar to the original one,
-# a trick which really makes difference, have to play with
-# the shutter samples for more accuracy
-motionblur = nuke.nodes.MotionBlur()
-motionblur.setInput(0,merge)
-
-# For keeping track of the nodegraph if you have too many pictures
-motionblur.setSelected(True)
+if __name__ == "__main__":
+    main()
