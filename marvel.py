@@ -47,11 +47,8 @@ def manipulate_node(filename,pos):
     return timeoffset
     
 i = 0
-node1 = manipulate_node(images[i],i)
+merge = manipulate_node(images[i],i)
 i += 1
-node2 = manipulate_node(images[i],i)
-i += 1
-merge = nuke.nodes.Merge(inputs=[node1, node2])
 
 while i < length:
     node = manipulate_node(images[i],i)
